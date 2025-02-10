@@ -1,20 +1,13 @@
-import axios from './utils/axios.customize.js';
-import { useEffect, useState } from 'react'
+import { Outlet } from 'react-router-dom';
+import Header from './components/layout/Header';
+
 function App() {
-
-	useEffect(() => {
-		const fetchHelloWorld = async() => {
-			const res = await axios.get(`/v1/api`);
-			console.log('Check response: ', res);
-		}
-
-		fetchHelloWorld();
-	}, [])
-	return (
-		<>
-			Hello world
-		</>
-	)
+    return (
+        <div>
+            <Header />
+            <Outlet />
+        </div>
+    );
 }
 
-export default App
+export default App;
