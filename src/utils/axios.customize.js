@@ -12,8 +12,8 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 // Add a request interceptor
 instance.interceptors.request.use(
     function (config) {
-		const token = localStorage.getItem('access_token');
-        config.headers.Authorization = token ?  `Bearer ${token}` : '';
+        const token = localStorage.getItem('access_token');
+        config.headers.Authorization = token ? `Bearer ${token}` : '';
 
         return config;
     },
@@ -34,6 +34,10 @@ instance.interceptors.response.use(
     function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
+        console.log('Check error::', error);
+        if(error?.response?.data){
+            return error.response.data;
+        }
         return Promise.reject(error);
     },
 );

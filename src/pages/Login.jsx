@@ -1,28 +1,36 @@
 import { Button, Form, Input, notification } from 'antd';
 import { loginApi } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
-import { ReconciliationFilled } from '@ant-design/icons';
+import { useContext } from 'react';
+import { AuthContext } from '../components/context/auth.context';
 
 function Login() {
     const navigate = useNavigate();
+    const { setAuth } = useContext(AuthContext);
     const onFinish = async (values) => {
-        console.log('Success:', values);
         const { email, password } = values;
 
         const res = await loginApi(email, password);
         if (res && res.EC === 0) {
             localStorage.setItem('access_token', res.access_token);
+            setAuth({
+                isAuthenticated: true,
+                user: {
+                    email: res?.user?.email ?? '',
+                    name: res?.user?.name ?? '',
+                },
+            });
             notification.success({
                 message: 'Login user',
-                description: "Successfully!!"
+                description: 'Successfully!!',
             });
 
             navigate('/');
-        }else {
+        } else {
             notification.error({
-                message: "Login user",
-                description: res?.EM ?? "Failure!!"
-            })
+                message: 'Login user',
+                description: res?.EM ?? 'Failure!!',
+            });
         }
     };
 
@@ -55,7 +63,7 @@ function Login() {
                 >
                     <Input />
                 </Form.Item>
-    
+
                 <Form.Item
                     label="Password"
                     name="password"
