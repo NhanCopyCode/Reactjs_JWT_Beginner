@@ -17,5 +17,7 @@ export const AuthWrapper = ({ children }) => {
         },
     });
 
-    return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>;
+    const [appLoading, setAppLoading] = useState(false);
+
+    return <AuthContext.Provider value={{ auth, setAuth, appLoading, setAppLoading }}>{children}</AuthContext.Provider>;
 };
